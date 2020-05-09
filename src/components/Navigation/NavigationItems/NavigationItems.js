@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import NavigationItem from './NavigationItem/NavigationItem'
 import classes from './NavigationItems.module.css'
+
 const navigationItems = () => {
     return (
-        <ul className={classes.navigationItems}>
-            <NavigationItem link ="/" active>Burger Builder</NavigationItem>
-            <NavigationItem link ="/" >Checkout</NavigationItem>
+        <Fragment>
+            <ul className={classes.navigationItems}>
+                <NavigationItem link="/">Burger Builder</NavigationItem>
+                {/* <NavigationItem link="/checkout" >Checkout</NavigationItem> */}
+                <NavigationItem link="/orders" >Order</NavigationItem>
+            </ul>
+        </Fragment>
 
-        </ul>
     )
 }
 
