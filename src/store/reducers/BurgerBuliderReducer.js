@@ -6,7 +6,9 @@ const INTIAL_PRICE = 4;
 const intialState = {
     ingredients: null,
     totalPrice: INTIAL_PRICE,
-    error: false
+    error: false,
+    buildingMode: false
+
 }
 const INGREDIENTS_PRICE = {
     salad: .3,
@@ -27,7 +29,8 @@ const AddRemoveIng = (state, action, flag) => {
     const updatedIngredients = updatedObject(state.ingredients, updatedIng)
     return {
         ingredients: updatedIngredients,
-        totalPrice: totalPrice
+        totalPrice: totalPrice,
+        buildingMode: true
     }
 }
 const setIng = (state, action) => {
@@ -39,7 +42,8 @@ const setIng = (state, action) => {
             meat: action.ingredients.meat
         },
         error: false,
-        totalPrice: INTIAL_PRICE
+        totalPrice: INTIAL_PRICE,
+        buildingMode: false
     })
 }
 const fetchIngFail = (state, action) => {
