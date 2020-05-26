@@ -26,7 +26,6 @@ class BurgerBuilder extends Component {
     }
 
     purchaseHandler = () => {
-        console.log('this.props.isAuthenticated', this.props.isAuthenticated)
         if (this.props.isAuthenticated) {
             this.setState({ checkButtonClicked: true })
         } else {

@@ -6,6 +6,7 @@ import Button from '../../components/UI/Button/Button'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import classes from './Auth.module.css'
 import * as actions from '../../store/actions/indexAction'
+import { updatedObject, checkValidaity } from '../../shared/utility'
 
 class Auth extends Component {
     state = {
@@ -45,39 +46,19 @@ class Auth extends Component {
         if (this.props.isAuthicated && this.props.authRedirectpath !== '/')
             this.props.setAuthRedirectPath();
     }
-    checkValidaity(value, rules) {
-        if (!rules)
-            return true;
-        let isValid = true;
-        if (rules.required) {
-            isValid = value.trim() !== "" && isValid;
-        }
-        if (rules.minLength) {
-            isValid = value.trim().length >= rules.minLength && isValid;
-        }
-        if (rules.maxlength) {
-            isValid = value.trim().length <= rules.maxlength && isValid;
-        }
-        return isValid;
-    }
+  
     changeHandler(event, inputName) {
-        const updatedForm = {
-            ...this.state.controls,
+        const updatedForm = updatedObject(this.state.controls, {
             [inputName]: {
                 value: event.target.value,
-                vaild: this.checkValidaity(event.target.value, this.state.controls[inputName].validationRules),
+                vaild: checkValidaity(event.target.value, this.state.controls[inputName].validationRules),
                 touched: true
             }
-        }
+        })
         let isValid = true
         for (let inputId in updatedForm) {
-            // console.log('item', inputName)
-            // console.log('item', updatedForm[inputId].vaild)
             isValid = updatedForm[inputId].valid && isValid
-            // console.log('form vaild for', isValid)
-
         }
-        // console.log('form vaild', isValid)
         this.setState({ controls: updatedForm, isFormValid: isValid })
     }
     sumbitHandler = (event) => {

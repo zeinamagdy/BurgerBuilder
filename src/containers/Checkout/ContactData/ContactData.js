@@ -7,6 +7,8 @@ import axios from '../../../axios-orders'
 import Input from '../../../components/UI/Form/Input/Input'
 import WithOrderHandler from '../../../components/UI/WithErrorHandler/WithErrorHandler'
 import * as actionTypes from '../../../store/actions/indexAction'
+import { updatedObject, checkValidaity } from '../../../shared/utility'
+
 
 class ContactData extends Component {
     state = {
@@ -63,28 +65,14 @@ class ContactData extends Component {
 
 
     }
-    checkValidaity(value, rules) {
-        if (!rules)
-            return true;
-        let isValid = true;
-        if (rules.required) {
-            isValid = value.trim() !== "" && isValid;
-        }
-        if (rules.minLength) {
-            isValid = value.trim().length >= rules.minLength && isValid;
-        }
-        if (rules.maxlength) {
-            isValid = value.trim().length <= rules.maxlength && isValid;
-        }
-        return isValid;
-    }
+
     changeHandler(event, id) {
-        const updatedForm = { ...this.state.orderForm }
-        const updatedFormElement = { ...updatedForm[id] }
-        updatedFormElement.value = event.target.value
-        updatedFormElement.valid = this.checkValidaity(updatedFormElement.value, updatedFormElement.validations)
-        updatedFormElement.touched = true
-        updatedForm[id] = updatedFormElement;
+        const updatedFormElement = updatedObject(this.state.orderForm[id], {
+            value: event.target.value,
+            valid: checkValidaity(event.target.value, this.state.orderForm[id].validations),
+            touched: true,
+        })
+        const updatedForm = updatedObject(this.state.orderForm, { [id]: updatedFormElement })
         let isValid = true
         for (let inputId in updatedForm) {
             isValid = updatedForm[inputId].valid && isValid
