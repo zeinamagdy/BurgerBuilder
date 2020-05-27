@@ -58,7 +58,6 @@ export const auth = (mail, password, isSingUp) => {
                 dispatch(checkAuthTimeout(response.data.expiresIn))
             })
             .catch(err => {
-                console.log(err)
                 dispatch(authFail(err))
             })
     }

@@ -24,7 +24,6 @@ class Orders extends Component {
                 />
             ))
 
-        console.log('orders', this.props.orders)
         return (<div>{orders}</div>)
     }
 }
