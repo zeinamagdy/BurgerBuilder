@@ -11,7 +11,7 @@ import * as actions from '../../store/actions/indexAction'
 
 const INTIAL_PRICE = 4;
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
     state = {
         purchasable: false,
         checkButtonClicked: false,
