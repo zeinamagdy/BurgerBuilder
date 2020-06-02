@@ -7,7 +7,7 @@ const navigationItems = (props) => {
         <Fragment>
             <ul className={classes.navigationItems}>
                 <NavigationItem link="/">Burger Builder</NavigationItem>
-                _{props.isAuthenicated ? <NavigationItem link="/orders" >Order</NavigationItem> : null}
+                {props.isAuthenicated ? <NavigationItem link="/orders" >Order</NavigationItem> : null}
                 {props.isAuthenicated ?
                     <NavigationItem link="/logout">Logout</NavigationItem>
                     : <NavigationItem link="/auth">Auth</NavigationItem>}
