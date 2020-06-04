@@ -23,15 +23,16 @@ const Auth = React.lazy(() => {
 
 
 const App = props => {
-
+  const { onTryAutoToSingUp } = props
+  
   useEffect(() => {
-    props.onTryAutoToSingUp()
-  })
+    onTryAutoToSingUp()
+  }, [onTryAutoToSingUp])
 
   let routes = (
     <Switch>
       <Route path='/' exact component={BurgerBuilder} />
-      <Route path='/auth' render={() => <Auth />} />
+      <Route path='/auth' render={props => <Auth {...props} />} />
       <Redirect to='/' />
     </Switch>
   );
@@ -39,9 +40,10 @@ const App = props => {
     routes = (
       <Switch>
         <Route path='/' exact component={BurgerBuilder} />
-        <Route path='/auth' render={() => <Auth />} />
-        <Route path='/checkout' render={() => <Checkout />} />
-        <Route path='/orders' render={() => <Orders />} />
+        {/* should froward props to component in Routes */}
+        <Route path='/auth' render={props => <Auth {...props} />} />
+        <Route path='/checkout' render={props => <Checkout {...props} />} />
+        <Route path='/orders' render={props => <Orders {...props} />} />
         <Route path='/logout' component={Logout} />
         <Redirect to='/' />
       </Switch>
@@ -49,7 +51,7 @@ const App = props => {
   return (
     <div>
       <Layout>
-        <Suspense fallback = {<p>Loading....</p>}>{routes}</Suspense>
+        <Suspense fallback={<p>Loading....</p>}>{routes}</Suspense>
       </Layout>
     </div>
   );

@@ -1,39 +1,38 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import ContactData from './ContactData/ContactData'
 
 
-class Checkout extends Component {
+const Checkout = props => {
 
-    cancelledHandler = () => {
-        this.props.history.goBack();
+    const cancelledHandler = () => {
+        props.history.goBack();
     }
-    continuedHandler = () => {
-        this.props.history.replace('/checkout/contact-data')
-    }
-    render() {
-        let summary = <Redirect to='/' />
-        if (this.props.ings) {
-            console.log('test', this.props.purchased)
-            const purchasedDone = this.props.purchased? <Redirect to='/'/> : null
-            summary = (
-                <div>
-                    {purchasedDone}
-                    <CheckoutSummary
-                        ingredients={this.props.ings}
-                        cancelled={this.cancelledHandler}
-                        continued={this.continuedHandler}
-                    />
-                    <Route path={this.props.match.path + '/contact-data'} component={ContactData} />
-                </div>
-            );
-        }
-        return summary
+    const continuedHandler = () => {
+        props.history.replace('/checkout/contact-data')
     }
 
+    let summary = <Redirect to='/' />
+    if (props.ings) {
+        const purchasedDone = props.purchased ? <Redirect to='/' /> : null
+        summary = (
+            <div>
+                {purchasedDone}
+                <CheckoutSummary
+                    ingredients={props.ings}
+                    cancelled={cancelledHandler}
+                    continued={continuedHandler}
+                />
+                <Route path={props.match.path + '/contact-data'} component={ContactData} />
+            </div>
+        );
+    }
+    return summary
 }
+
+
 
 const mapToprops = state => {
     return {

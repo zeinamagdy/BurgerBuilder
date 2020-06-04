@@ -1,41 +1,22 @@
-import React, { Fragment, Component } from 'react'
+/* eslint-disable */
+import React, { Fragment } from 'react'
 import Model from '../Modal/Modal'
+import useHttpErrorHandler from '../../../hooks/http-error-handler'
 
 const WithErrorHandler = (WrapperComponent, axios) => {
-    return class extends Component {
-        state = {
-            error: null
-        }
-        componentWillMount() {
-            this.reqInterceptor = axios.interceptors.request.use(req => {
-                this.setState({ error: null })
-                return req;
-            })
-            this.resInterceptor = axios.interceptors.response.use(response => response, error => {
-                this.setState({ error: error })
-            })
-        }
-        componentWillUnmount() {
-            axios.interceptors.request.eject(this.reqInterceptor)
-            axios.interceptors.response.eject(this.resInterceptor)
-
-        }
-        confirmedErrorHandler() {
-            this.setState({ error: null })
-        }
-
-        render() {
-            return (
-                <Fragment>
-                    <Model show={this.state.error} modelCLosed={this.confirmedErrorHandler.bind(this)}>
-                        {this.state.error ? this.state.error.message : null}
-                    </Model>
-                    <WrapperComponent {...this.props} />
-                </Fragment>
-            )
-        }
+    return props => {
+        const [error, clearError] = useHttpErrorHandler(axios)
+        return (
+            <Fragment>
+                <Model show={error} modelCLosed={clearError}>
+                    {error ? error.message : null}
+                </Model>
+                <WrapperComponent {...props} />
+            </Fragment>
+        )
 
     }
+
 
 }
 
